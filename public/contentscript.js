@@ -12,6 +12,13 @@ injectedElement.className = 'injectedElement';
 const injectedText = document.createTextNode(`Budget-to-Beat: ${euroVal}`);
 injectedElement.appendChild(injectedText);
 
+// Initialize parent element as a variable and attach new element to it
+const parentElement = document.querySelector(
+    '#root > div > div > div.makeStyles-mainPanel-3 > div.makeStyles-scrollbars-5 > div:nth-child(1) > div > section > h1',
+  );
+  parentElement.appendChild(injectedElement);
+  
+
 // Function that sets styles
 function css(element, style) {
     for (const property in style) {
@@ -53,8 +60,55 @@ pseudoStyles.innerHTML = `
 const head = document.querySelector('head')
 head.appendChild(pseudoStyles);
 
-// Initialize parent element as a variable and attach new element to it
-const parentElement = document.querySelector(
-  '#root > div > div > div.makeStyles-mainPanel-3 > div.makeStyles-scrollbars-5 > div:nth-child(1) > div > section > h1',
-);
-parentElement.appendChild(injectedElement);
+// Create dropdown element and append text
+var dropdownElement = document.createElement('div');
+dropdownElement.className = 'dropdownElement';
+const dropdownText = document.createTextNode(`
+    Climate change dummy:
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna
+    aliqua.
+`)
+dropdownElement.appendChild(dropdownText);
+
+// Append hidden dropdown element to injected element
+parentElement.insertBefore(dropdownElement, parentElement.firstChild);
+css(dropdownElement, {
+    'width': '197px',
+    'font-size': '12px',
+    'float': 'right',
+    'border': '1px solid #1111fd',
+    'border-radius': '4px',
+    'display': 'none'
+})
+
+
+// Fucntion to show/hide the dropwdown
+function showHideDropdown() {
+    let classes = injectedElement.className;
+    let classArr = classes.split(' ');
+    if (!classArr.includes('shown')) {
+        css(dropdownElement, {
+            'width': '197px',
+            'font-size': '12px',
+            'float': 'right',
+            'border': '1px solid #1111fd',
+            'border-radius': '4px',
+            'display': 'block'
+        });
+        injectedElement.classList.add('shown');
+    } else {
+        css(dropdownElement, {
+            'width': '197px',
+            'font-size': '12px',
+            'float': 'right',
+            'border': '1px solid #1111fd',
+            'border-radius': '4px',
+            'display': 'none'
+        });
+        injectedElement.classList.remove('shown');
+    }
+}
+
+// Add click event listener to the injected element
+injectedElement.addEventListener('click', showHideDropdown);
